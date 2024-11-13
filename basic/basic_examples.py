@@ -1,6 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response, redirect, abort
 
 app = Flask(__name__)
+
+@app.route('/bad_request')
+def bad_request():
+    return "Bad Request", 400
 
 @app.route("/")
 def hello():
@@ -15,7 +19,7 @@ def user_agent():
     user_agent = request.headers.get("User-Agent")
     return f"Your browser is {user_agent}"
 
-@app.route("/request_object")
+@app.route("/infos_request")
 def request_object():
     json_object = {
         "method": request.method,
@@ -38,6 +42,20 @@ def request_object():
     return jsonify(json_object)
 
 
-#if __name__ == "__main__":
-#    app.run(host="0.0.0.0", port=5000, debug=True)
+@app.route("/response_object")
+def response_object():
+    response = make_response("<h1>This document carries a cookie!</h1>")
+    response.set_cookie("answer", "42")
+    return response
 
+@app.route("/redirect")
+def redirect_to_other_page():
+    return redirect("https://www.google.com")
+
+@app.route("/abort")
+def abort_request():
+    abort(400)
+
+
+#if __name__ == "__main__":
+#    app.run(host="0.0.0.0", port=5000, debug=True

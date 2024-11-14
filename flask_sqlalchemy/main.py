@@ -46,7 +46,7 @@ def get_user(username):
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(app=app, db=db, Role=Role, User=User)
+    return dict(db=db, Role=Role, User=User)
 
 
 if __name__ == '__main__':
